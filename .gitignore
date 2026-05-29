@@ -16,7 +16,11 @@ background/.vscode/
 # PyInstaller / Executable Builds
 game/build/
 game/dist/
+game/main/
 game/main.spec
+
+# Unrelated project files
+game/demo/
 
 # Operating System Files
 .DS_Store

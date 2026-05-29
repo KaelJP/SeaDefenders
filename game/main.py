@@ -1,8 +1,22 @@
 import pygame
 import sys
 import random
+import os
 from pygame.locals import *
 from button import Button
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        parent_dir = os.path.dirname(script_dir)
+        if os.path.exists(os.path.join(parent_dir, relative_path)):
+            base_path = parent_dir
+        else:
+            base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 # COLORS
 white = (255, 255, 255)
@@ -25,41 +39,41 @@ pygame.display.set_caption('Sea Defenders')
 clock = pygame.time.Clock()
 
 def get_font(size):  # Font loader
-    return pygame.font.Font("fonts/Pixelify Sans.ttf", size)
+    return pygame.font.Font(resource_path("fonts/Pixelify Sans.ttf"), size)
 
 def text_font(size):  # Font loader
-    return pygame.font.Font("fonts/SpicyRice.ttf", size)
+    return pygame.font.Font(resource_path("fonts/SpicyRice.ttf"), size)
 
 def health_font(size):  # Font loader
-    return pygame.font.Font("fonts/ConcertOne.ttf", size)
+    return pygame.font.Font(resource_path("fonts/ConcertOne.ttf"), size)
 
 #sounds
-menu_sound = pygame.mixer.Sound("audio/menu.mp3")
-battle_sound = pygame.mixer.Sound("audio/battle.mp3")
-button_sound = pygame.mixer.Sound("audio/button.mp3")
-back_sound = pygame.mixer.Sound("audio/back.mp3")
-winner_sound = pygame.mixer.Sound("audio/winner.mp3")
+menu_sound = pygame.mixer.Sound(resource_path("audio/menu.mp3"))
+battle_sound = pygame.mixer.Sound(resource_path("audio/battle.mp3"))
+button_sound = pygame.mixer.Sound(resource_path("audio/button.mp3"))
+back_sound = pygame.mixer.Sound(resource_path("audio/back.mp3"))
+winner_sound = pygame.mixer.Sound(resource_path("audio/winner.mp3"))
 
 
 # LOAD IMAGES
 try:
-    battle_background = pygame.image.load("background/battle.jpg").convert()
+    battle_background = pygame.image.load(resource_path("background/battle.jpg")).convert()
     battle_background = pygame.transform.scale(battle_background, (1000, 700))  # Resize background
 
     # Load sprites
-    player1_sprite = pygame.image.load("aquatics/aqua.png").convert_alpha()  # Aqua (Player 1 sprite)
-    player2_sprite = pygame.image.load("wastes/waste.png").convert_alpha()  # Waste (Player 2 sprite)
+    player1_sprite = pygame.image.load(resource_path("aquatics/aqua.png")).convert_alpha()  # Aqua (Player 1 sprite)
+    player2_sprite = pygame.image.load(resource_path("wastes/waste.png")).convert_alpha()  # Waste (Player 2 sprite)
     player1_sprite = pygame.transform.scale(player1_sprite, (200, 200))  # Scale Aqua
     player2_sprite = pygame.transform.flip(pygame.transform.scale(player2_sprite, (200, 200)), True, False)  # Scale and flip Waste to face Aqua
 
-    player1_icon = pygame.image.load("players/p1.png").convert_alpha()
+    player1_icon = pygame.image.load(resource_path("players/p1.png")).convert_alpha()
     player1_icon = pygame.transform.scale(player1_icon, (50, 50))  # Load and scale Player 1 icon
-    player2_icon = pygame.image.load("players/p2.png").convert_alpha()
+    player2_icon = pygame.image.load(resource_path("players/p2.png")).convert_alpha()
     player2_icon = pygame.transform.scale(player2_icon, (50, 50))  # Load and scale Player 2 icon
 
     # Load platforms
-    pf1_sprite = pygame.image.load("platform/pf1.png").convert_alpha()
-    pf2_sprite = pygame.image.load("platform/pf2.png").convert_alpha()
+    pf1_sprite = pygame.image.load(resource_path("platform/pf1.png")).convert_alpha()
+    pf2_sprite = pygame.image.load(resource_path("platform/pf2.png")).convert_alpha()
     pf1_sprite = pygame.transform.scale(pf1_sprite, (320, 130))  # Enlarge and scale platform 1
     pf2_sprite = pygame.transform.scale(pf2_sprite, (350, 120))  # Enlarge and scale platform 2
 
@@ -210,9 +224,9 @@ def play():
     battle_sound.play()
     # Define three Aqua characters and their health values
     aqua_sprites = [
-        pygame.transform.scale(pygame.image.load("aquatics/aqua.png").convert_alpha(), (200, 200)),
-        pygame.transform.scale(pygame.image.load("aquatics/AQUA2.png").convert_alpha(), (200, 200)),
-        pygame.transform.scale(pygame.image.load("aquatics/AQUA3.png").convert_alpha(), (200, 200))
+        pygame.transform.scale(pygame.image.load(resource_path("aquatics/aqua.png")).convert_alpha(), (200, 200)),
+        pygame.transform.scale(pygame.image.load(resource_path("aquatics/AQUA2.png")).convert_alpha(), (200, 200)),
+        pygame.transform.scale(pygame.image.load(resource_path("aquatics/AQUA3.png")).convert_alpha(), (200, 200))
     ]
     aqua_healths = [100, 100, 100]
     aqua_max_healths = [100, 100, 100]
@@ -220,9 +234,9 @@ def play():
 
     # Define three Waste characters and their health values
     waste_sprites = [
-        pygame.transform.flip(pygame.transform.scale(pygame.image.load("wastes/waste.png").convert_alpha(), (200, 200)), True, False),
-        pygame.transform.flip(pygame.transform.scale(pygame.image.load("wastes/WASTE2.png").convert_alpha(), (200, 200)), True, False),
-        pygame.transform.flip(pygame.transform.scale(pygame.image.load("wastes/WASTE3.png").convert_alpha(), (200, 200)), True, False)
+        pygame.transform.flip(pygame.transform.scale(pygame.image.load(resource_path("wastes/waste.png")).convert_alpha(), (200, 200)), True, False),
+        pygame.transform.flip(pygame.transform.scale(pygame.image.load(resource_path("wastes/WASTE2.png")).convert_alpha(), (200, 200)), True, False),
+        pygame.transform.flip(pygame.transform.scale(pygame.image.load(resource_path("wastes/WASTE3.png")).convert_alpha(), (200, 200)), True, False)
     ]
     waste_healths = [100, 100, 100]
     waste_max_healths = [100, 100, 100]
@@ -428,13 +442,13 @@ def about():
 def main_menu():
     menu_sound.play()
     """Display the main menu."""
-    BG = pygame.image.load("background/menu.jpg").convert()
+    BG = pygame.image.load(resource_path("background/menu.jpg")).convert()
     BG = pygame.transform.scale(BG, (1000, 700))
 
     # Load button images
-    play_button_image = pygame.image.load("assets/play_button.png").convert_alpha()
-    about_button_image = pygame.image.load("assets/about_button.png").convert_alpha()
-    quit_button_image = pygame.image.load("assets/quit_button.png").convert_alpha()
+    play_button_image = pygame.image.load(resource_path("assets/play_button.png")).convert_alpha()
+    about_button_image = pygame.image.load(resource_path("assets/about_button.png")).convert_alpha()
+    quit_button_image = pygame.image.load(resource_path("assets/quit_button.png")).convert_alpha()
     
     
     while True:

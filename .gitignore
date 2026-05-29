@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environments
+background/py/
+background/myenv/
+background/.pytest_cache/
+background/.vscode/
+
+# IDE / VS Code
+.vscode/
+
+# PyInstaller / Executable Builds
+game/build/
+game/dist/
+game/main.spec
+
+# Operating System Files
+.DS_Store
+Thumbs.db
